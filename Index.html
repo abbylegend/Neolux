@@ -2,9 +2,293 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NeoLux Perfumes</title>
+  <title>NeoLux Perfumes | luxury pay-on-delivery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <!-- Font for a luxe touch (optional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,600&display=swap" rel="stylesheet">
+  <style>
+    /* style.css – integrated for single‑file preview */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #faf9f7;
+      color: #1e1e1e;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: #ffffffd9;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: 3px;
+      background: linear-gradient(135deg, #a17a5c, #c9a88b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav a {
+      margin-left: 2rem;
+      text-decoration: none;
+      color: #3b3b3b;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #b48b6b;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 6rem;
+      background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.4)), url('https://images.unsplash.com/photo-1600618528240-fb45e0b7cbb2?auto=format&fit=crop&w=1470&q=80') no-repeat center/cover;
+      background-blend-mode: overlay;
+    }
+
+    .hero h2 {
+      font-size: 3.2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      color: #26221f;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #4a3f39;
+      margin-bottom: 2rem;
+    }
+
+    button {
+      background: #2b2b2b;
+      border: none;
+      color: white;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.9rem 2.2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    button:hover {
+      background: #4a3f39;
+      transform: scale(1.02);
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .products h2, .about h2, .contact h2 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      margin-bottom: 3rem;
+      text-align: center;
+      color: #2b241f;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2.5rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px -10px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 2rem;
+      border: 1px solid #f0eae4;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 40px -8px rgba(172, 126, 94, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .card h3 {
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin: 1.2rem 0 0.2rem;
+      color: #302722;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      color: #7e6b5c;
+      margin-bottom: 1.5rem;
+    }
+
+    .card button {
+      background: #f3eee9;
+      color: #2b2b2b;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      font-weight: 500;
+      border-radius: 30px;
+      box-shadow: none;
+      transition: 0.2s;
+    }
+
+    .card button:hover {
+      background: #e2d3c7;
+      color: #1a1512;
+    }
+
+    .about, .contact {
+      background: #f5f0eb;
+      border-radius: 60px 60px 0 0;
+      text-align: center;
+    }
+
+    .about p {
+      max-width: 650px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      color: #3f352f;
+    }
+
+    .contact button {
+      background: #25D366; /* WhatsApp green */
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.2rem;
+      padding: 1rem 2.8rem;
+      margin-top: 1rem;
+      border: none;
+    }
+
+    .contact button:hover {
+      background: #20b859;
+    }
+
+    /* chatbot */
+    .chatbot {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 300px;
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      border: 1px solid #e9dbd1;
+      overflow: hidden;
+      font-size: 0.9rem;
+      backdrop-filter: blur(6px);
+      transition: 0.25s;
+      z-index: 100;
+    }
+
+    .chat-header {
+      background: #1e1e1e;
+      color: white;
+      padding: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-align: center;
+    }
+
+    .chat-body {
+      height: 180px;
+      overflow-y: auto;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bot-message, .user-message {
+      max-width: 85%;
+      padding: 0.5rem 1rem;
+      border-radius: 24px;
+      word-wrap: break-word;
+    }
+
+    .bot-message {
+      background: #f1e9e2;
+      align-self: flex-start;
+      color: #201b17;
+    }
+
+    .user-message {
+      background: #d6cbbc;
+      align-self: flex-end;
+      color: #26211c;
+    }
+
+    #chatInput {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: none;
+      border-top: 1px solid #e2d6cc;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    /* small tweaks */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #fffbf7;
+      color: #6b5b4f;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      nav a {
+        margin: 0 1rem;
+      }
+      .hero h2 {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -28,21 +312,21 @@
 
   <div class="product-grid">
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539" />
+      <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=80" alt="Midnight Essence perfume bottle" loading="lazy">
       <h3>Midnight Essence</h3>
       <p>$79 - Pay on Delivery</p>
       <button onclick="orderProduct('Midnight Essence')">Order Now</button>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de" />
+      <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=800&q=80" alt="Golden Aura perfume bottle" loading="lazy">
       <h3>Golden Aura</h3>
       <p>$95 - Pay on Delivery</p>
       <button onclick="orderProduct('Golden Aura')">Order Now</button>
     </div>
 
     <div class="card">
-      <img src="https://images.unsplash.com/photo-1600180758890-6f7e69c12d3c" />
+      <img src="https://images.unsplash.com/photo-1600180758890-6f7e69c12d3c?auto=format&fit=crop&w=800&q=80" alt="Rose Elixir in cosmetic packaging" loading="lazy">
       <h3>Rose Elixir</h3>
       <p>$68 - Pay on Delivery</p>
       <button onclick="orderProduct('Rose Elixir')">Order Now</button>
@@ -60,16 +344,110 @@
 
 <section id="contact" class="contact">
   <h2>Contact Us</h2>
-  <button onclick="openWhatsApp()">Chat on WhatsApp</button>
+  <button onclick="openWhatsApp()">💬 Chat on WhatsApp</button>
 </section>
 
 <!-- AI Chatbot -->
-<div class="chatbot">
-  <div class="chat-header">AI Assistant</div>
+<div class="chatbot" id="chatbotWidget">
+  <div class="chat-header">✨ AI Assistant</div>
   <div class="chat-body" id="chatBody"></div>
   <input type="text" id="chatInput" placeholder="Ask about orders..." onkeypress="handleChat(event)">
 </div>
 
-<script src="script.js"></script>
+<!-- hidden footer for elegance -->
+<footer>© NeoLux — pay on delivery · luxury assured</footer>
+
+<script>
+  // ---------- script.js ----------
+  function scrollToProducts() {
+    document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // product order action (just simulate)
+  function orderProduct(name) {
+    alert(`✨ You ordered ${name}.\n📦 Pay on delivery – we'll contact you soon.`);
+    // optional: open chat with a suggestion
+    const chatBody = document.getElementById('chatBody');
+    if (chatBody) {
+      addBotMessage(`Interested in ${name}? Type "order" to confirm.`);
+    }
+  }
+
+  // WhatsApp (dummy number, you can replace with actual link)
+  function openWhatsApp() {
+    const phone = '1234567890'; // placeholder – replace with real number
+    const message = encodeURIComponent('Hello, I am interested in your perfumes.');
+    window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+  }
+
+  // ------- chatbot logic -------
+  const chatBody = document.getElementById('chatBody');
+  const chatInput = document.getElementById('chatInput');
+
+  // initial bot greeting
+  window.addEventListener('load', function () {
+    addBotMessage('👋 Welcome! Ask about products, orders, or delivery.');
+  });
+
+  function addBotMessage(text) {
+    if (!chatBody) return;
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'bot-message';
+    msgDiv.innerText = text;
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    if (!chatBody) return;
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'user-message';
+    msgDiv.innerText = text;
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function handleChat(event) {
+    if (event.key === 'Enter' && chatInput.value.trim() !== '') {
+      const userText = chatInput.value.trim();
+      addUserMessage(userText);
+      chatInput.value = '';
+
+      // simple AI response logic
+      setTimeout(() => {
+        let reply = '';
+        const lower = userText.toLowerCase();
+
+        if (lower.includes('order') || lower.includes('buy')) {
+          reply = 'To order, click "Order Now" on any perfume. Pay on delivery!';
+        } else if (lower.includes('delivery') || lower.includes('pay')) {
+          reply = 'We offer pay-on-delivery for all products. No prepayment needed.';
+        } else if (lower.includes('midnight')) {
+          reply = 'Midnight Essence ($79) – woody & amber. Pay on delivery.';
+        } else if (lower.includes('golden')) {
+          reply = 'Golden Aura ($95) – citrus & saffron. Available now.';
+        } else if (lower.includes('rose')) {
+          reply = 'Rose Elixir ($68) – floral with hints of vanilla. In stock.';
+        } else if (lower.includes('hello') || lower.includes('hi')) {
+          reply = 'Hello! Ask me anything about NeoLux perfumes.';
+        } else if (lower.includes('contact') || lower.includes('whatsapp')) {
+          reply = 'You can reach us via WhatsApp using the Contact button.';
+        } else if (lower.includes('time') || lower.includes('hours')) {
+          reply = 'We process orders 9am–8pm, 7 days a week.';
+        } else {
+          reply = 'Thanks for your message. For quick order, click "Order Now" on any card.';
+        }
+
+        addBotMessage(reply);
+      }, 300);
+    }
+  }
+
+  // expose functions globally for inline event handlers
+  window.scrollToProducts = scrollToProducts;
+  window.orderProduct = orderProduct;
+  window.openWhatsApp = openWhatsApp;
+  window.handleChat = handleChat;
+</script>
 </body>
 </html>
