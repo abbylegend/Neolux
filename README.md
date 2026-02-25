@@ -1,6 +1,6 @@
 # Neolux
 Built for fast deployment on GitHub Pages.
-How to use:
+🛸🦶USER MANUAL:
 
 1. Save this code as script.js in the same folder as your HTML file.
 2. In your HTML, replace the inline <script> block with:
