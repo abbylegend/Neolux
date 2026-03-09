@@ -3,108 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KEYCOSMETICS | Cosmetics Seller & Buyer Portal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>keycloudin - Coding Cloud Landing</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <h1>KEYCOSMETICS</h1>
-    <p>KEYCOSMETICS sales system • seller uploads • COD delivery • WhatsApp communication</p>
-  </header>
+  <header>☁ keycloudin | AirplaneDev OS v3.5</header>
 
-  <main class="layout">
-    <section class="panel">
-      <h2>Seller Console</h2>
-      <form id="sellerForm" class="stack" autocomplete="off">
-        <label>
-          Item name
-          <input type="text" id="itemName" required placeholder="Glow Shield SPF50">
-        </label>
-        <label>
-          Number in stock
-          <input type="number" id="itemStock" min="1" required placeholder="25">
-        </label>
-        <label>
-          Cosmetic type
-          <input type="text" id="itemType" required placeholder="Foundation">
-        </label>
-        <label>
-          Size
-          <input type="text" id="itemSize" required placeholder="100ml">
-        </label>
-        <label>
-          Price (USD)
-          <input type="number" id="itemPrice" min="1" step="0.01" required placeholder="24.99">
-        </label>
-        <label>
-          Vivid description
-          <textarea id="itemDescription" rows="3" required placeholder="Hydrating daily sunscreen with satin finish and no white cast."></textarea>
-        </label>
-        <label>
-          Upload item photo
-          <input type="file" id="itemImage" accept="image/*" required>
-        </label>
-        <div class="btn-row">
-          <button type="button" id="analyzeBtn">Read photo details</button>
-          <button type="submit">Publish item</button>
+  <div class="container">
+    <aside class="sidebar">
+      <button data-panel="generator">Generator</button>
+      <button data-panel="editor">Editor</button>
+      <button data-panel="preview">Preview</button>
+      <button data-panel="terminal">Terminal</button>
+      <button data-panel="analyzer">Analyzer</button>
+      <button data-panel="database">Database</button>
+      <button data-panel="chat">AI Chat (Key)</button>
+      <button data-panel="agents">Coding Agents</button>
+      <button data-panel="account">Account</button>
+      <button data-panel="admin">Admin</button>
+      <button data-panel="messaging">Messaging</button>
+      <button data-panel="downloads">Downloads</button>
+    </aside>
+
+    <section class="files">
+      <h3>Files</h3>
+      <ul id="fileList"></ul>
+      <button class="action" id="refreshFilesBtn">Refresh Files</button>
+    </section>
+
+    <main class="main">
+      <section id="generator" class="panel active">
+        <h2>Autonomous Project Generator</h2>
+        <input id="prompt" placeholder="Describe your app" />
+        <button class="action" id="generateBtn">Generate</button>
+        <div id="generatorStatus" class="status"></div>
+      </section>
+
+      <section id="editor" class="panel">
+        <h2>Code Editor</h2>
+        <div class="editor-controls">
+          <select id="activeFile"></select>
+          <select id="viewMode">
+            <option value="syntax">Syntax</option>
+            <option value="logic">Logic Flow</option>
+            <option value="terminal">Terminal Code</option>
+            <option value="machine">Machine Code</option>
+          </select>
         </div>
-      </form>
+        <textarea id="codeEditor"></textarea>
+        <button class="action" id="saveBtn">Save</button>
+      </section>
 
-      <div id="analysisResult" class="note" aria-live="polite">
-        Upload an image, then click <strong>Read photo details</strong> to detect potential manufacturer details from image text.
-      </div>
+      <section id="preview" class="panel">
+        <h2>Live Preview</h2>
+        <iframe class="preview" id="previewFrame" title="preview"></iframe>
+        <button class="action" id="renderBtn">Render</button>
+      </section>
 
-      <div class="store-card-wrap">
-        <h3>Generated store item picture</h3>
-        <canvas id="storeCanvas" width="550" height="330"></canvas>
-      </div>
-    </section>
+      <section id="terminal" class="panel">
+        <h2>Terminal Console</h2>
+        <div class="terminal" id="terminalBox">Autopilot Terminal Ready &gt;</div>
+        <input id="terminalInput" placeholder="Enter command">
+        <button class="action" id="runCommandBtn">Execute</button>
+      </section>
 
-    <section class="panel">
-      <h2>Buyer Store (Cosmetics • USD)</h2>
-      <div id="storeList" class="grid"></div>
+      <section id="analyzer" class="panel">
+        <h2>Code Analyzer</h2>
+        <textarea id="analyzeInput" placeholder="Paste HTML/JS code"></textarea>
+        <button class="action" id="analyzeBtn">Analyze</button>
+        <div id="analyzeResult" class="status"></div>
+      </section>
 
-      <div class="cart-panel">
-        <h3>Cart</h3>
-        <div id="cartItems" class="stack"></div>
-        <p id="cartTotal">Total: $0.00</p>
-      </div>
+      <section id="database" class="panel">
+        <h2>Database Explorer</h2>
+        <table><tbody>
+          <tr><td>projects</td><td id="dbProjects">0</td></tr>
+          <tr><td>users</td><td id="dbUsers">0</td></tr>
+        </tbody></table>
+        <button class="action" id="simulateDbUpdateBtn">Simulate Update</button>
+      </section>
 
-      <form id="checkoutForm" class="stack checkout" autocomplete="off">
-        <h3>Checkout (Payment on Delivery)</h3>
-        <label>
-          Delivery phone number
-          <input type="tel" id="buyerPhone" required placeholder="08012345678">
-        </label>
-        <label>
-          WhatsApp number for all communication
-          <input type="tel" id="buyerWhatsapp" required placeholder="+2348012345678">
-        </label>
-        <label>
-          Delivery address
-          <textarea id="buyerAddress" rows="2" required placeholder="House 7, Allen Avenue, Ikeja"></textarea>
-        </label>
-        <button type="submit">Place order (COD)</button>
-      </form>
+      <section id="chat" class="panel">
+        <h2>Lingual Coding Agent: Key</h2>
+        <div id="chatLog" class="chat-log"></div>
+        <input id="chatInput" placeholder="Ask Key for coding help" />
+        <button class="action" id="chatSendBtn">Send</button>
+      </section>
 
-      <div id="orderStatus" class="note" aria-live="polite"></div>
+      <section id="agents" class="panel">
+        <h2>Agent Directory</h2>
+        <div id="agentsList" class="log"></div>
+      </section>
 
-      <div class="confirm-box">
-        <h3>Package confirmation</h3>
-        <p>Buyer confirms package first, then payment is made on delivery.</p>
-        <button id="confirmPackageBtn">Confirm package received</button>
-      </div>
-    </section>
-  </main>
+      <section id="account" class="panel">
+        <h2>User Account & Profile</h2>
+        <input id="registerUser" placeholder="username">
+        <input id="registerPass" placeholder="password">
+        <button class="action" id="registerBtn">Create Account</button>
+        <button class="action" id="loginBtn">Login</button>
+        <textarea id="profileBio" placeholder="Profile bio and skill goals"></textarea>
+        <button class="action" id="saveProfileBtn">Save Profile</button>
+        <div id="accountStatus" class="status"></div>
+      </section>
 
-  <footer>
-    <p>"All communications via the WhatsApp number submitted. Thank for shopping keywe unlock."</p>
-  </footer>
+      <section id="admin" class="panel">
+        <h2>Admin Database View</h2>
+        <button class="action" id="loadDbBtn">Load Database Snapshot</button>
+        <pre id="adminDb" class="log"></pre>
+      </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+      <section id="messaging" class="panel">
+        <h2>Automated Messaging Service</h2>
+        <input id="programName" placeholder="Program name (ex: huge-program-alpha)">
+        <input id="programMessage" placeholder="Message to all users">
+        <button class="action" id="sendProgramMsgBtn">Send Broadcast</button>
+        <div id="messageStatus" class="status"></div>
+      </section>
+
+      <section id="downloads" class="panel">
+        <h2>Download Center</h2>
+        <button class="action" id="downloadFileBtn">Download Active File</button>
+        <button class="action" id="downloadProjectBtn">Download Full Project Folder</button>
+      </section>
+    </main>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

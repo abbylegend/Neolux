@@ -1,0 +1,14 @@
+{
+  "name": "neolux-airplanedev-fullstack",
+  "version": "1.0.0",
+  "description": "AirplaneDev OS full-stack starter for beginner coding students",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "check": "node --check server/index.js && node --check script.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
