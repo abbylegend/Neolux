@@ -2,499 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NeoLux • full store • jewelry • pleasure • FedEx</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <title>KEYSALES | Cosmetics Seller & Buyer Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* same futuristic base – full version */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0c0b0e;
-      color: #e0e0e0;
-      line-height: 1.5;
-      scroll-behavior: smooth;
-      background-image: radial-gradient(circle at 30% 10%, rgba(100,200,255,0.05) 0%, transparent 30%),
-                        radial-gradient(circle at 80% 70%, rgba(200,130,255,0.05) 0%, transparent 40%);
-    }
-    h1, h2, h3, .section-title { font-family: 'Orbitron', sans-serif; font-weight: 600; letter-spacing: 1px; }
-    header {
-      display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;
-      background: rgba(10,10,20,0.7); backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,255,255,0.25); box-shadow: 0 0 20px rgba(0,255,255,0.2);
-      position: sticky; top: 0; z-index: 100;
-    }
-    .logo {
-      font-size: 2.2rem; font-weight: 600;
-      background: linear-gradient(135deg, #a0f0ff, #ffa0ff);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 15px cyan;
-    }
-    nav a {
-      margin-left: 2rem; text-decoration: none; color: #ccc; font-weight: 500;
-      transition: 0.2s; font-size: 1.1rem; position: relative;
-    }
-    nav a:hover { color: #a0f0ff; text-shadow: 0 0 8px cyan; }
-    nav a::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 2px;
-      background: cyan; box-shadow: 0 0 8px cyan; transition: 0.2s;
-    }
-    nav a:hover::after { width: 100%; }
-    .hero {
-      text-align: center; padding: 6rem 2rem 7rem;
-      background: linear-gradient(135deg, rgba(20,30,50,0.9), rgba(10,5,20,0.9)), 
-                  url('https://images.unsplash.com/photo-1615634260167-c8cdede054de?auto=format&fit=crop&w=1600&q=80') no-repeat center/cover;
-      background-blend-mode: overlay;
-      border-bottom: 1px solid #00ffff40; box-shadow: inset 0 -10px 30px #00ffff10, 0 20px 30px #00000080;
-    }
-    .hero h2 {
-      font-size: 4rem; font-weight: 600;
-      background: linear-gradient(135deg, #fff 0%, #a0f0ff 60%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 20px cyan; margin-bottom: 1rem;
-    }
-    .hero p { font-size: 1.3rem; color: #ddd; margin-bottom: 2.5rem; text-shadow: 0 0 5px black; }
-    button {
-      background: transparent; border: 2px solid #0ff; color: #0ff; font-weight: 600;
-      font-size: 1.2rem; padding: 0.9rem 2.5rem; border-radius: 50px; cursor: pointer;
-      transition: 0.2s; box-shadow: 0 0 15px cyan, inset 0 0 5px cyan;
-      text-transform: uppercase; letter-spacing: 2px;
-    }
-    button:hover { background: cyan; color: black; box-shadow: 0 0 30px cyan; border-color: cyan; }
-    .section-title {
-      font-size: 2.8rem; text-align: center; margin: 3rem 0;
-      background: linear-gradient(135deg, #ffa0ff, #a0f0ff);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 10px magenta; letter-spacing: 3px;
-    }
-    /* earnings section (unchanged) */
-    .earnings-section {
-      background: rgba(0,30,30,0.8); backdrop-filter: blur(10px);
-      border: 2px solid gold; border-radius: 60px; padding: 3rem 2rem;
-      margin: 4rem auto; max-width: 1100px; text-align: center;
-      box-shadow: 0 0 60px gold;
-    }
-    .earnings-grid {
-      display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin: 3rem 0;
-    }
-    .earnings-card {
-      background: #11101a; border: 1px solid cyan; border-radius: 30px; padding: 1.5rem;
-      width: 280px; box-shadow: 0 0 30px cyan;
-    }
-    .earnings-card i { font-size: 2.5rem; color: gold; }
-    .earnings-value { color: #0ff; font-size: 2rem; font-weight: 600; }
-    .referral-code-box {
-      background: #10101a; border: 2px dashed cyan; padding: 1rem 2rem;
-      font-size: 1.8rem; font-family: 'Orbitron', monospace; color: cyan;
-      display: inline-block; margin: 1.5rem 0; border-radius: 20px;
-      letter-spacing: 5px; box-shadow: 0 0 20px cyan;
-    }
-    .wheel-container { margin: 2rem auto; width: 200px; height: 200px; position: relative; }
-    .wheel {
-      width: 100%; height: 100%; border-radius: 50%; border: 4px solid cyan;
-      background: conic-gradient(#ffa0ff 0deg 120deg, #a0f0ff 120deg 240deg, gold 240deg 360deg);
-      transition: transform 3s ease-out; cursor: pointer;
-    }
-    .wheel-pointer { border-left: 20px solid transparent; border-right: 20px solid transparent; border-top: 40px solid magenta; position: absolute; top: -20px; left: 80px; }
-    /* QR & FedEx */
-    .qr-fedex-row {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;
-      margin: 3rem auto; max-width: 1000px;
-    }
-    .channel-card {
-      background: rgba(0,20,20,0.7); backdrop-filter: blur(8px);
-      border: 2px solid cyan; border-radius: 40px; padding: 2rem;
-      flex: 1; min-width: 280px; text-align: center; box-shadow: 0 0 40px cyan;
-    }
-    .qr-placeholder {
-      width: 150px; height: 150px; margin: 1rem auto;
-      background: #111; border: 3px dashed magenta;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; color: #ccc; border-radius: 30px;
-    }
-    .fedex-card {
-      background: #4d2e1b; border: 2px solid #ff6600; border-radius: 40px;
-      padding: 2rem; flex: 1; min-width: 280px; text-align: center;
-      box-shadow: 0 0 40px #ff6600; color: #fff;
-    }
-    .fedex-card h3 { color: #ff6600; font-size: 2rem; }
-    .fedex-label { background: #ffcc00; color: black; padding: 0.3rem 1rem; border-radius: 20px; display: inline-block; margin: 0.5rem; font-weight: bold; }
-    /* store tabs – now 4 tabs */
-    .store-tabs {
-      display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0;
-    }
-    .tab-btn {
-      background: transparent; border: 1px solid magenta; color: magenta;
-      padding: 0.8rem 1.5rem; border-radius: 40px; font-size: 1.1rem;
-      box-shadow: 0 0 10px magenta; cursor: pointer;
-    }
-    .tab-btn.active { background: magenta; color: black; box-shadow: 0 0 30px magenta; }
-    .product-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem; max-height: 600px; overflow-y: auto; padding: 1rem;
-      border: 1px solid #00ffff50; border-radius: 40px; background: rgba(0,0,0,0.3);
-    }
-    .store-item {
-      background: rgba(20,20,30,0.8); border: 1px solid #ffa0ff50;
-      border-radius: 20px; padding: 1rem; text-align: center;
-      transition: 0.2s; backdrop-filter: blur(4px);
-    }
-    .store-item:hover { border-color: cyan; box-shadow: 0 0 20px cyan; }
-    .store-item img {
-      width: 100%; height: 150px; object-fit: cover; border-radius: 15px;
-    }
-    .store-item h4 { font-size: 1.1rem; margin: 0.5rem 0; color: #fff; }
-    .store-item .price { color: #0ff; font-weight: 600; }
-    .store-item .desc {
-      font-size: 0.85rem; color: #aaa; margin: 0.3rem 0;
-    }
-    .store-item button { margin-top: 0.5rem; padding: 0.3rem 1rem; font-size: 0.9rem; }
-    /* cart (unchanged) */
-    .cart-icon {
-      position: fixed; bottom: 110px; right: 30px; z-index: 1000;
-      width: 70px; height: 70px; background: #000c1a; border: 2px solid magenta;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      color: magenta; font-size: 2rem; cursor: pointer; box-shadow: 0 0 30px magenta;
-    }
-    .cart-panel {
-      position: fixed; top: 0; right: -400px; width: 350px; height: 100vh;
-      background: rgba(5,5,15,0.98); backdrop-filter: blur(10px);
-      border-left: 3px solid cyan; box-shadow: -10px 0 40px cyan;
-      transition: right 0.3s; padding: 2rem 1rem; z-index: 1100;
-      display: flex; flex-direction: column;
-    }
-    .cart-panel.open { right: 0; }
-    .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; z-index: 1050; }
-    .overlay.show { display: block; }
-    .chat-container {
-      position: fixed; bottom: 30px; right: 30px; z-index: 1000;
-      display: flex; flex-direction: column; align-items: flex-end;
-    }
-    .chat-icon { width: 70px; height: 70px; background: #000c1a; border: 2px solid cyan; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: cyan; font-size: 2.2rem; cursor: pointer; box-shadow: 0 0 30px cyan; }
-    .chatbot { width: 320px; background: rgba(10,10,25,0.95); backdrop-filter: blur(10px); border: 2px solid cyan; border-radius: 30px; overflow: hidden; margin-bottom: 15px; display: none; flex-direction: column; box-shadow: 0 0 50px cyan; }
-    .chatbot.open { display: flex; }
-    .chat-header { background: #001020; color: cyan; padding: 1rem; border-bottom: 1px solid magenta; display: flex; justify-content: space-between; }
-    .close-chat { background: none; border: none; color: magenta; font-size: 1.4rem; cursor: pointer; }
-    .chat-body { height: 240px; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 8px; background: #050510; }
-    .bot-message, .user-message { max-width: 85%; padding: 0.5rem 1rem; border-radius: 24px; word-wrap: break-word; }
-    .bot-message { background: #101520; border: 1px solid cyan; align-self: flex-start; color: #aaf0ff; }
-    .user-message { background: #200520; border: 1px solid magenta; align-self: flex-end; color: #ffc0ff; }
-    #chatInput { background: #101010; border: none; border-top: 1px solid cyan; color: white; padding: 1rem; outline: none; }
-    footer { text-align: center; padding: 2rem; color: #6f6f9f; border-top: 1px solid cyan; }
-    .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #1a1a2e; border: 3px solid cyan; border-radius: 40px; padding: 2rem; z-index: 2000; box-shadow: 0 0 100px cyan; text-align: center; }
-    .modal.show { display: block; }
-    .stars { font-size: 2rem; color: gold; cursor: pointer; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1 class="logo">NeoLUX</h1>
-  <nav>
-    <a href="#products">Store</a>
-    <a href="#earnings">Earnings</a>
-    <a href="#qr-fedex">QR & FedEx</a>
-  </nav>
-</header>
+  <header class="topbar">
+    <h1>KEYSALES</h1>
+    <p>Cosmetics sales system • seller uploads • COD delivery • WhatsApp communication</p>
+  </header>
 
-<section class="hero">
-  <h2>everything luxury</h2>
-  <p>perfumes · jewelry · pleasure · 700+ items · free delivery now</p>
-  <button onclick="scrollToStore()">explore all</button>
-</section>
+  <main class="layout">
+    <section class="panel">
+      <h2>Seller Console</h2>
+      <form id="sellerForm" class="stack" autocomplete="off">
+        <label>
+          Item name
+          <input type="text" id="itemName" required placeholder="Glow Shield SPF50">
+        </label>
+        <label>
+          Number in stock
+          <input type="number" id="itemStock" min="1" required placeholder="25">
+        </label>
+        <label>
+          Cosmetic type
+          <input type="text" id="itemType" required placeholder="Foundation">
+        </label>
+        <label>
+          Size
+          <input type="text" id="itemSize" required placeholder="100ml">
+        </label>
+        <label>
+          Price (USD)
+          <input type="number" id="itemPrice" min="1" step="0.01" required placeholder="24.99">
+        </label>
+        <label>
+          Vivid description
+          <textarea id="itemDescription" rows="3" required placeholder="Hydrating daily sunscreen with satin finish and no white cast."></textarea>
+        </label>
+        <label>
+          Upload item photo
+          <input type="file" id="itemImage" accept="image/*" required>
+        </label>
+        <div class="btn-row">
+          <button type="button" id="analyzeBtn">Read photo details</button>
+          <button type="submit">Publish item</button>
+        </div>
+      </form>
 
-<!-- QR + FedEx combined row -->
-<section id="qr-fedex" class="qr-fedex-row">
-  <!-- WhatsApp QR card -->
-  <div class="channel-card">
-    <h2 style="color:cyan;">📱 FOLLOW CHANNEL</h2>
-    <div class="qr-placeholder">
-      <span>🔳 QR CODE<br>(IMG_4103.jpeg)</span>
-    </div>
-    <p>Scan with camera to join</p>
-    <a href="https://whatsapp.com/channel/0029VbBR4HpG8l59NAelk346" target="_blank" style="color:#0ff;">https://whatsapp.com/channel/0029VbBR4HpG8l59NAelk346</a>
-  </div>
-  <!-- FedEx packaging card -->
-  <div class="fedex-card">
-    <i class="fas fa-box-open" style="font-size:3rem; color:#ff6600;"></i>
-    <h3>FedEx Office</h3>
-    <p style="font-size:1.2rem;">For you. <strong>Let us pack it for you.</strong></p>
-    <div class="fedex-label">FRA</div>
-    <div class="fedex-label">FRAGILE</div>
-    <p style="margin-top:1rem;">Handling with care<br>Please keep away from children.</p>
-  </div>
-</section>
-
-<!-- EARNINGS SECTION -->
-<section id="earnings" class="earnings-section">
-  <h2 style="color:gold; font-size:3rem;">💰 YOUR EARNINGS 💰</h2>
-  <div class="referral-code-box" onclick="copyReferral()">NE0LUX-4EVA <i class="far fa-copy"></i></div>
-  <div class="earnings-grid">
-    <div class="earnings-card"><i class="fas fa-users"></i><h3>Referral</h3><div class="earnings-value">$124.50</div><p>12 referrals</p></div>
-    <div class="earnings-card"><i class="fas fa-bullhorn"></i><h3>Promotional</h3><div class="earnings-value">$67.30</div><p>from campaigns</p></div>
-    <div class="earnings-card"><i class="fas fa-wallet"></i><h3>Total</h3><div class="earnings-value">$191.80</div><p>ready to withdraw</p></div>
-  </div>
-  <h3 style="color:cyan;">🎁 SPIN & EARN</h3>
-  <div class="wheel-container" onclick="spinWheel()">
-    <div class="wheel" id="wheel"></div>
-    <div class="wheel-pointer"></div>
-  </div>
-  <p id="wheelResult" style="color:cyan;"></p>
-  <button onclick="withdrawEarnings()">withdraw</button>
-</section>
-
-<!-- MEGA STORE with 4 tabs -->
-<section id="products" class="products">
-  <h2 class="section-title">✦ MEGA STORE (700+ ITEMS) ✦</h2>
-  <div class="store-tabs">
-    <button class="tab-btn active" onclick="switchStoreTab('perfumes')">PERFUMES (500+)</button>
-    <button class="tab-btn" onclick="switchStoreTab('cortex')">COSMETICS (100+)</button>
-    <button class="tab-btn" onclick="switchStoreTab('jewelry')">JEWELRY (50+)</button>
-    <button class="tab-btn" onclick="switchStoreTab('intimate')">PLEASURE (50+)</button>
-  </div>
-  <div id="store-grid" class="product-grid"></div>
-</section>
-
-<!-- Pop-up ads -->
-<div class="popup-ad" id="popupAd">
-  <img id="popupImg" src="" alt="product">
-  <div>
-    <div id="popupName" style="font-weight:bold; color:cyan;"></div>
-    <div>✨ flash sale</div>
-  </div>
-</div>
-
-<!-- CART -->
-<div class="cart-icon" onclick="toggleCart()">
-  <i class="fas fa-shopping-cart"></i>
-  <span id="cartCount">0</span>
-</div>
-<div class="overlay" id="cartOverlay" onclick="toggleCart()"></div>
-<div class="cart-panel" id="cartPanel">
-  <h3>YOUR CART <i class="fas fa-times" style="float:right; cursor:pointer;" onclick="toggleCart()"></i></h3>
-  <div class="cart-items" id="cartItems"></div>
-  <div class="cart-total" id="cartTotal">Total: $0</div>
-  <button class="checkout-btn" onclick="checkout()">ORDER (call to confirm)</button>
-  <p style="font-size:0.8rem;">Only delivery fee prepaid</p>
-</div>
-
-<!-- Delivery modal -->
-<div id="deliveryModal" class="modal">
-  <h3>📦 DELIVERY CONFIRMATION</h3>
-  <p>Has your order arrived?</p>
-  <button onclick="confirmDelivery(true)" style="background:green;">YES</button>
-  <button onclick="confirmDelivery(false)" style="background:red;">NOT YET</button>
-  <div id="ratingSection" style="display:none; margin-top:1rem;">
-    <p>Rate delivery speed:</p>
-    <div class="stars">
-      <span onclick="rateSpeed(1)">★</span><span onclick="rateSpeed(2)">★</span><span onclick="rateSpeed(3)">★</span><span onclick="rateSpeed(4)">★</span><span onclick="rateSpeed(5)">★</span>
-    </div>
-  </div>
-</div>
-
-<!-- CHATBOT -->
-<div class="chat-container">
-  <div class="chatbot" id="chatbotWidget">
-    <div class="chat-header"><span>🤖 NEO·ASSISTANT</span><button class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></button></div>
-    <div class="chat-body" id="chatBody"></div>
-    <input type="text" id="chatInput" placeholder="ask..." onkeypress="handleChat(event)">
-  </div>
-  <div class="chat-icon" onclick="toggleChat()"><i class="fas fa-robot"></i></div>
-</div>
-
-<footer>© 2028 NeoLux · FedEx pack · pleasure products</footer>
-
-<script>
-  // ---------- PRODUCT DATA (4 categories) ----------
-  const categories = { perfumes: [], cortex: [], jewelry: [], intimate: [] };
-  const baseImages = [
-    'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=200&q=80',
-    'https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=200&q=80',
-    'https://images.unsplash.com/photo-1600180758890-6f7e69c12d3c?w=200&q=80',
-    'https://images.unsplash.com/photo-1594035910387-fea47797661f?w=200&q=80',
-    'https://images.unsplash.com/photo-1587017539504-67cfbddac569?w=200&q=80',
-    'https://images.unsplash.com/photo-1616949755518-3675a74214f2?w=200&q=80'
-  ];
-  // Perfumes (500+)
-  const perfumeNames = ["Midnight Essence","Golden Aura","Rose Elixir","Cyber Oud","Neon Neroli","Quantum Musk","Solar Vetiver","Plasma Patchouli","Nebula Noir","Crystal Amber"];
-  for (let i = 1; i <= 500; i++) {
-    let base = perfumeNames[i % perfumeNames.length];
-    categories.perfumes.push({
-      id: `p${i}`, name: base + ' ' + i,
-      desc: 'Long-lasting luxury fragrance',
-      price: (50 + Math.floor(Math.random() * 50)).toFixed(0),
-      img: baseImages[i % baseImages.length]
-    });
-  }
-  // Cosmetics / Cortex (100+)
-  for (let i = 1; i <= 100; i++) {
-    categories.cortex.push({
-      id: `c${i}`, name: `Cortex Serum X${i}`,
-      desc: 'Advanced skincare',
-      price: (30 + Math.floor(Math.random() * 70)).toFixed(0),
-      img: baseImages[i % baseImages.length]
-    });
-  }
-  // Jewelry (50+)
-  const jewelryTypes = ["Neon Ring","Plasma Pendant","Quantum Earrings","Cyber Cuff","Laser Bracelet","Nebula Necklace","Crystal Core","Fusion Band","Prism Pin","Glitch Gem"];
-  for (let i = 1; i <= 50; i++) {
-    categories.jewelry.push({
-      id: `j${i}`, name: jewelryTypes[i % jewelryTypes.length] + ' ' + i,
-      desc: 'Stainless steel / 18k gold plated',
-      price: (80 + Math.floor(Math.random() * 200)).toFixed(0),
-      img: baseImages[i % baseImages.length]
-    });
-  }
-  // Intimate / Pleasure (50+)
-  const intimateNames = [
-    "Silicon Dream Dildo 7\"", "Pleasure Vibe Vagina", "Ultra G-Slim", "Rose Clitoral Stim", "Curved Glass Dildo", "Bunny Ear Vibrator",
-    "Realistic Dual Density", "Remote Control Egg", "Leather Strap Set", "Anal Beads 5pc", "Butterfly Vibrator", "Fleshlight Storm",
-    "Suction Cup Dildo", "G-Spot Wand", "Clit Sensation", "Vibrating Cock Ring", "Prostate Massager", "Love Dolphin", "Passion Duo",
-    "Magic Touch Wand", "Mini Bullet", "App Controlled Vibe", "Silicone Dildo 9\"", "Vagina Exerciser", "Penis Sleeve"
-  ];
-  for (let i = 1; i <= 50; i++) {
-    categories.intimate.push({
-      id: `x${i}`, name: intimateNames[i % intimateNames.length] + (i>intimateNames.length ? ' ' + i : ''),
-      desc: 'Body-safe silicone · waterproof',
-      price: (25 + Math.floor(Math.random() * 100)).toFixed(0),
-      img: baseImages[i % baseImages.length] // using same images for demo
-    });
-  }
-
-  let currentCategory = 'perfumes', cart = [];
-
-  function renderStore(cat) {
-    const grid = document.getElementById('store-grid');
-    const items = categories[cat] || [];
-    grid.innerHTML = items.map(item => `
-      <div class="store-item">
-        <img src="${item.img}" alt="">
-        <h4>${item.name}</h4>
-        <div class="desc">${item.desc}</div>
-        <div class="price">$${item.price}</div>
-        <button onclick="addToCart('${item.id}','${item.name.replace(/'/g,"\\'")}',${item.price},'${item.img}')">add to cart</button>
+      <div id="analysisResult" class="note" aria-live="polite">
+        Upload an image, then click <strong>Read photo details</strong> to detect potential manufacturer details from image text.
       </div>
-    `).join('');
-  }
 
-  window.switchStoreTab = (cat) => {
-    currentCategory = cat;
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    renderStore(cat);
-  };
+      <div class="store-card-wrap">
+        <h3>Generated store item picture</h3>
+        <canvas id="storeCanvas" width="550" height="330"></canvas>
+      </div>
+    </section>
 
-  window.addToCart = (id, name, price, img) => {
-    const existing = cart.find(i => i.id === id);
-    if (existing) existing.quantity++;
-    else cart.push({ id, name, price, img, quantity: 1 });
-    updateCartUI();
-    addBotMessage(`✅ Added ${name} to cart.`);
-  };
+    <section class="panel">
+      <h2>Buyer Store (Cosmetics • USD)</h2>
+      <div id="storeList" class="grid"></div>
 
-  window.removeFromCart = (id) => { cart = cart.filter(i => i.id !== id); updateCartUI(); };
+      <div class="cart-panel">
+        <h3>Cart</h3>
+        <div id="cartItems" class="stack"></div>
+        <p id="cartTotal">Total: $0.00</p>
+      </div>
 
-  function updateCartUI() {
-    const cartItemsDiv = document.getElementById('cartItems');
-    const cartTotalSpan = document.getElementById('cartTotal');
-    const cartCount = document.getElementById('cartCount');
-    let total = 0, count = 0;
-    let html = '';
-    cart.forEach(item => {
-      total += item.price * item.quantity;
-      count += item.quantity;
-      html += `<div class="cart-item"><img src="${item.img}"><div><div>${item.name}</div><div>$${item.price} x ${item.quantity}</div></div><div class="cart-item-remove" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></div></div>`;
-    });
-    cartItemsDiv.innerHTML = html || '<p>Cart is empty</p>';
-    cartTotalSpan.innerText = `Total: $${total}`;
-    cartCount.innerText = count;
-  }
+      <form id="checkoutForm" class="stack checkout" autocomplete="off">
+        <h3>Checkout (Payment on Delivery)</h3>
+        <label>
+          Delivery phone number
+          <input type="tel" id="buyerPhone" required placeholder="08012345678">
+        </label>
+        <label>
+          WhatsApp number for all communication
+          <input type="tel" id="buyerWhatsapp" required placeholder="+2348012345678">
+        </label>
+        <label>
+          Delivery address
+          <textarea id="buyerAddress" rows="2" required placeholder="House 7, Allen Avenue, Ikeja"></textarea>
+        </label>
+        <button type="submit">Place order (COD)</button>
+      </form>
 
-  window.toggleCart = () => {
-    document.getElementById('cartPanel').classList.toggle('open');
-    document.getElementById('cartOverlay').classList.toggle('show');
-  };
+      <div id="orderStatus" class="note" aria-live="polite"></div>
 
-  // Checkout & decision tree
-  window.checkout = () => {
-    if (cart.length === 0) { alert('Cart empty'); return; }
-    alert('📞 Call 1-800-NEOLUX to confirm. Only delivery fee prepaid.');
-    toggleCart();
-    addBotMessage('Thank you! Choose a free sample: "sample A" (Rose Elixir) or "sample B" (Cyber Oud)');
-    window.awaitingChoice = 'sample';
-  };
+      <div class="confirm-box">
+        <h3>Package confirmation</h3>
+        <p>Buyer confirms package first, then payment is made on delivery.</p>
+        <button id="confirmPackageBtn">Confirm package received</button>
+      </div>
+    </section>
+  </main>
 
-  window.handleChat = (e) => {
-    if (e.key === 'Enter' && e.target.value) {
-      const txt = e.target.value.trim();
-      addUserMessage(txt);
-      e.target.value = '';
-      setTimeout(() => {
-        let reply = '';
-        if (window.awaitingChoice === 'sample') {
-          if (txt.toLowerCase().includes('a')) { reply = 'Rose Elixir sample added.'; window.awaitingChoice = null; }
-          else if (txt.toLowerCase().includes('b')) { reply = 'Cyber Oud sample added.'; window.awaitingChoice = null; }
-          else reply = 'Please type "sample A" or "sample B".';
-        } else {
-          reply = 'I can help with orders. After checkout, pick a sample.';
-        }
-        addBotMessage(reply);
-      }, 500);
-    }
-  };
+  <footer>
+    <p>"All communications via the WhatsApp number submitted. Thank for shopping keywe unlock."</p>
+  </footer>
 
-  // Pop-up ads (every 7 sec)
-  const popup = document.getElementById('popupAd');
-  const popupImg = document.getElementById('popupImg');
-  const popupName = document.getElementById('popupName');
-  let allItems = [...categories.perfumes, ...categories.cortex, ...categories.jewelry, ...categories.intimate];
-  setInterval(() => {
-    const rand = allItems[Math.floor(Math.random() * allItems.length)];
-    popupImg.src = rand.img;
-    popupName.innerText = rand.name;
-    popup.classList.add('show');
-    setTimeout(() => popup.classList.remove('show'), 4000);
-  }, 7000);
-
-  // Earnings wheel
-  let spinning = false;
-  window.spinWheel = () => {
-    if (spinning) return;
-    spinning = true;
-    const wheel = document.getElementById('wheel');
-    const spinDeg = 720 + Math.floor(Math.random() * 360);
-    wheel.style.transform = `rotate(${spinDeg}deg)`;
-    setTimeout(() => {
-      spinning = false;
-      const result = spinDeg % 360;
-      let bonus = result < 120 ? '$5' : (result < 240 ? '$10' : '$15');
-      document.getElementById('wheelResult').innerText = `You won: ${bonus} added to earnings!`;
-      addBotMessage(`🎁 Spin win: ${bonus} added.`);
-    }, 3000);
-  };
-
-  window.copyReferral = () => { navigator.clipboard?.writeText('NE0LUX-4EVA'); alert('Copied!'); };
-  window.withdrawEarnings = () => alert('Withdrawal request sent.');
-
-  // Delivery
-  window.confirmDelivery = (arrived) => {
-    if (arrived) { document.getElementById('ratingSection').style.display = 'block'; addBotMessage('Rate delivery speed.'); }
-    else { alert('Please wait.'); document.getElementById('deliveryModal').classList.remove('show'); }
-  };
-  window.rateSpeed = (stars) => { alert(`Rated ${stars} stars.`); document.getElementById('deliveryModal').classList.remove('show'); cart = []; updateCartUI(); };
-
-  // Utils
-  window.scrollToStore = () => document.getElementById('products').scrollIntoView({behavior:'smooth'});
-  window.toggleChat = () => document.getElementById('chatbotWidget').classList.toggle('open');
-  function addUserMessage(txt) { let b=document.getElementById('chatBody'); let d=document.createElement('div'); d.className='user-message'; d.innerText=txt; b.appendChild(d); b.scrollTop=b.scrollHeight; }
-  function addBotMessage(txt) { let b=document.getElementById('chatBody'); let d=document.createElement('div'); d.className='bot-message'; d.innerText='Bot: '+txt; b.appendChild(d); b.scrollTop=b.scrollHeight; }
-
-  // Initial render
-  renderStore('perfumes');
-  updateCartUI();
-  addBotMessage('👾 Welcome! 4 stores: perfumes, cosmetics, jewelry, pleasure.');
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
