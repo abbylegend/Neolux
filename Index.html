@@ -275,9 +275,9 @@
 <div class="cart-panel" id="cartPanel">
   <h3>YOUR CART <i class="fas fa-times" style="float:right; cursor:pointer;" onclick="toggleCart()"></i></h3>
   <div class="cart-items" id="cartItems"></div>
-  <div class="cart-total" id="cartTotal">Total: $0</div>
-  <button class="checkout-btn" onclick="checkout()">ORDER (call to confirm)</button>
-  <p style="font-size:0.8rem;">Only delivery fee prepaid</p>
+  <div class="cart-total" id="cartTotal">Total: 0 KSh</div>
+  <button class="checkout-btn" onclick="checkout()">ORDER (mobile pay on delivery)</button>
+  <p style="font-size:0.8rem;">Payments via mobile on delivery · Delivery Acc: 1069195</p>
 </div>
 
 <!-- Delivery modal -->
@@ -319,12 +319,15 @@
   ];
   // Perfumes (500+)
   const perfumeNames = ["Midnight Essence","Golden Aura","Rose Elixir","Cyber Oud","Neon Neroli","Quantum Musk","Solar Vetiver","Plasma Patchouli","Nebula Noir","Crystal Amber"];
+  const perfumeMlOptions = [30, 50, 60, 75, 100, 120];
+  const perfumeRatePerMl = 30;
   for (let i = 1; i <= 500; i++) {
     let base = perfumeNames[i % perfumeNames.length];
+    const ml = perfumeMlOptions[i % perfumeMlOptions.length];
     categories.perfumes.push({
       id: `p${i}`, name: base + ' ' + i,
-      desc: 'Long-lasting luxury fragrance',
-      price: (50 + Math.floor(Math.random() * 50)).toFixed(0),
+      desc: `${ml}ml · 30 KSh per ml`,
+      price: ml * perfumeRatePerMl,
       img: baseImages[i % baseImages.length]
     });
   }
@@ -373,7 +376,7 @@
         <img src="${item.img}" alt="">
         <h4>${item.name}</h4>
         <div class="desc">${item.desc}</div>
-        <div class="price">$${item.price}</div>
+        <div class="price">${item.price} KSh</div>
         <button onclick="addToCart('${item.id}','${item.name.replace(/'/g,"\\'")}',${item.price},'${item.img}')">add to cart</button>
       </div>
     `).join('');
@@ -405,10 +408,10 @@
     cart.forEach(item => {
       total += item.price * item.quantity;
       count += item.quantity;
-      html += `<div class="cart-item"><img src="${item.img}"><div><div>${item.name}</div><div>$${item.price} x ${item.quantity}</div></div><div class="cart-item-remove" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></div></div>`;
+      html += `<div class="cart-item"><img src="${item.img}"><div><div>${item.name}</div><div>${item.price} KSh x ${item.quantity}</div></div><div class="cart-item-remove" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></div></div>`;
     });
     cartItemsDiv.innerHTML = html || '<p>Cart is empty</p>';
-    cartTotalSpan.innerText = `Total: $${total}`;
+    cartTotalSpan.innerText = `Total: ${total} KSh`;
     cartCount.innerText = count;
   }
 
@@ -420,7 +423,7 @@
   // Checkout & decision tree
   window.checkout = () => {
     if (cart.length === 0) { alert('Cart empty'); return; }
-    alert('📞 Call 1-800-NEOLUX to confirm. Only delivery fee prepaid.');
+    alert('📱 Payments are made via mobile on delivery. Delivery Acc: 1069195.');
     toggleCart();
     addBotMessage('Thank you! Choose a free sample: "sample A" (Rose Elixir) or "sample B" (Cyber Oud)');
     window.awaitingChoice = 'sample';
@@ -438,7 +441,7 @@
           else if (txt.toLowerCase().includes('b')) { reply = 'Cyber Oud sample added.'; window.awaitingChoice = null; }
           else reply = 'Please type "sample A" or "sample B".';
         } else {
-          reply = 'I can help with orders. After checkout, pick a sample.';
+          reply = 'I can help with orders. Payments are mobile on delivery (Acc: 1069195).';
         }
         addBotMessage(reply);
       }, 500);

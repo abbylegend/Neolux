@@ -16,13 +16,16 @@ const perfumeNames = [
   "Midnight Essence","Golden Aura","Rose Elixir","Cyber Oud","Neon Neroli",
   "Quantum Musk","Solar Vetiver","Plasma Patchouli","Nebula Noir","Crystal Amber"
 ];
+const perfumeMlOptions = [30, 50, 60, 75, 100, 120];
+const perfumeRatePerMl = 30;
 for (let i = 1; i <= 500; i++) {
   let base = perfumeNames[i % perfumeNames.length];
+  const ml = perfumeMlOptions[i % perfumeMlOptions.length];
   categories.perfumes.push({
     id: `p${i}`,
     name: base + ' ' + i,
-    desc: 'Long-lasting luxury fragrance',
-    price: (50 + Math.floor(Math.random() * 50)).toFixed(0),
+    desc: `${ml}ml · 30 KSh per ml`,
+    price: ml * perfumeRatePerMl,
     img: baseImages[i % baseImages.length]
   });
 }
@@ -87,7 +90,7 @@ function renderStore(cat) {
       <img src="${item.img}" alt="${item.name}">
       <h4>${item.name}</h4>
       <div class="desc">${item.desc}</div>
-      <div class="price">$${item.price}</div>
+      <div class="price">${item.price} KSh</div>
       <button onclick="addToCart('${item.id}','${item.name.replace(/'/g, "\\'")}',${item.price},'${item.img}')">add to cart</button>
     </div>
   `).join('');
@@ -145,7 +148,7 @@ function updateCartUI() {
         <img src="${item.img}" alt="">
         <div class="cart-item-details">
           <div>${item.name}</div>
-          <div>$${item.price} x ${item.quantity}</div>
+          <div>${item.price} KSh x ${item.quantity}</div>
         </div>
         <div class="cart-item-remove" onclick="removeFromCart('${item.id}')">
           <i class="fas fa-trash"></i>
@@ -154,7 +157,7 @@ function updateCartUI() {
     `;
   });
   cartItemsDiv.innerHTML = html || '<p style="color:#666;">Cart is empty</p>';
-  cartTotalSpan.innerText = `Total: $${total}`;
+  cartTotalSpan.innerText = `Total: ${total} KSh`;
   cartCount.innerText = count;
 }
 
@@ -169,7 +172,7 @@ window.checkout = () => {
     alert('Cart empty');
     return;
   }
-  alert('📞 Call 1-800-NEOLUX to confirm your order. Only delivery fee prepaid.');
+  alert('📱 Payments are made via mobile on delivery. Delivery Acc: 1069195.');
   toggleCart();
   addBotMessage('🛍️ Thank you! Would you like a free sample? Reply: "sample A" (Rose Elixir) or "sample B" (Cyber Oud)');
   window.awaitingChoice = 'sample';
@@ -218,7 +221,7 @@ window.handleChat = (e) => {
           reply = 'Please type "sample A" or "sample B".';
         }
       } else {
-        reply = 'I can help with orders. After checkout, pick a free sample.';
+        reply = 'I can help with orders. Payments are mobile on delivery (Acc: 1069195).';
       }
       addBotMessage(reply);
     }, 500);
