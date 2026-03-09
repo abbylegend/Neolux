@@ -1,255 +1,170 @@
-const sellerForm = document.getElementById('sellerForm');
-const analyzeBtn = document.getElementById('analyzeBtn');
-const analysisResult = document.getElementById('analysisResult');
-const storeList = document.getElementById('storeList');
-const cartItems = document.getElementById('cartItems');
-const cartTotal = document.getElementById('cartTotal');
-const checkoutForm = document.getElementById('checkoutForm');
-const orderStatus = document.getElementById('orderStatus');
-const confirmPackageBtn = document.getElementById('confirmPackageBtn');
-const canvas = document.getElementById('storeCanvas');
-const ctx = canvas.getContext('2d');
+const panels = document.querySelectorAll('.panel');
+const fileList = document.getElementById('fileList');
+const activeFile = document.getElementById('activeFile');
+const codeEditor = document.getElementById('codeEditor');
+let authToken = '';
 
-const products = [];
-const cart = [];
-let lastOrder = null;
-let extractedManufacturer = 'No manufacturer text detected yet.';
-
-function money(amount) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+function showPanel(panelId) {
+  panels.forEach((panel) => panel.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
 }
 
-function getImageUrl(file) {
-  return URL.createObjectURL(file);
-}
+document.querySelectorAll('.sidebar button').forEach((button) => {
+  button.addEventListener('click', () => showPanel(button.dataset.panel));
+});
 
-function readFormValues() {
-  return {
-    name: document.getElementById('itemName').value.trim(),
-    stock: Number(document.getElementById('itemStock').value),
-    type: document.getElementById('itemType').value.trim(),
-    size: document.getElementById('itemSize').value.trim(),
-    price: Number(document.getElementById('itemPrice').value),
-    vividDescription: document.getElementById('itemDescription').value.trim()
-  };
-}
-
-function generateDetailedDescription(values, ocrText) {
-  const manufacturerLine = ocrText
-    ? `Manufacturer details spotted on image: ${ocrText.slice(0, 180)}.`
-    : 'Manufacturer details were not clearly detected on the photo.';
-
-  return `${values.name} [${values.type}] (${values.size}) is available in stock (${values.stock} units). ${values.vividDescription} ${manufacturerLine}`;
-}
-
-function drawStoreCard(product) {
-  const image = new Image();
-  image.onload = () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#120f1b';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(image, 20, 20, 230, 290);
-
-    ctx.fillStyle = '#ff7ac8';
-    ctx.fillRect(270, 20, 260, 42);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 22px Inter';
-    ctx.fillText('KEYSALES', 285, 48);
-
-    ctx.fillStyle = '#f0eaff';
-    ctx.font = 'bold 19px Inter';
-    ctx.fillText(product.name, 270, 95);
-
-    ctx.font = '16px Inter';
-    ctx.fillStyle = '#d9d2ee';
-    ctx.fillText(`Type: ${product.type}`, 270, 122);
-    ctx.fillText(`Size: ${product.size}`, 270, 146);
-    ctx.fillText(`Stock: ${product.stock}`, 270, 170);
-    ctx.fillText(`Price: ${money(product.price)}`, 270, 194);
-
-    ctx.font = '13px Inter';
-    const lines = wrapText(product.detailedDescription, 250);
-    lines.slice(0, 6).forEach((line, idx) => {
-      ctx.fillText(line, 270, 218 + idx * 16);
-    });
-  };
-  image.src = product.image;
-}
-
-function wrapText(text, maxWidth) {
-  const words = text.split(' ');
-  const lines = [];
-  let line = '';
-  words.forEach((word) => {
-    const test = `${line}${word} `;
-    if (ctx.measureText(test).width > maxWidth && line) {
-      lines.push(line.trim());
-      line = `${word} `;
-    } else {
-      line = test;
-    }
+async function api(path, options = {}) {
+  const response = await fetch(path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options
   });
-  if (line.trim()) lines.push(line.trim());
-  return lines;
+  if (!response.ok) throw new Error(await response.text());
+  return response.json();
 }
 
+async function refreshFiles() {
+  const data = await api('/api/files');
+  fileList.innerHTML = '';
+  activeFile.innerHTML = '';
+  for (const file of data.files) {
+    const li = document.createElement('li');
+    li.textContent = file;
+    li.onclick = () => openFile(file);
+    fileList.appendChild(li);
+    activeFile.add(new Option(file, file));
+  }
+  if (data.files[0]) openFile(data.files[0]);
+}
 
-function seedCosmetics() {
-  const sampleCosmetics = [
-    { name: 'Velvet Matte Foundation', type: 'Foundation', size: '30ml', stock: 24, price: 18.5, vividDescription: 'Lightweight matte base with pore-blur finish.', image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=700&q=80' },
-    { name: 'Glow Lock Setting Spray', type: 'Setting Spray', size: '100ml', stock: 35, price: 14.0, vividDescription: 'Keeps makeup fresh and transfer-resistant for all-day wear.', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=700&q=80' },
-    { name: 'Silk Touch Concealer', type: 'Concealer', size: '12ml', stock: 40, price: 11.75, vividDescription: 'High coverage concealer for dark spots and under-eye brightening.', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=700&q=80' }
-  ];
+async function openFile(file) {
+  const data = await api(`/api/files/${encodeURIComponent(file)}`);
+  activeFile.value = file;
+  codeEditor.value = data.content;
+  codeEditor.dataset.syntaxBackup = data.content;
+}
 
-  sampleCosmetics.forEach((item) => {
-    products.push({
-      id: crypto.randomUUID(),
-      ...item,
-      detailedDescription: generateDetailedDescription(item, 'Seed item - manufacturer details not scanned yet.')
-    });
+async function saveFile() {
+  await api(`/api/files/${encodeURIComponent(activeFile.value)}`, {
+    method: 'PUT', body: JSON.stringify({ content: codeEditor.value })
   });
 }
 
-function renderStore() {
-  storeList.innerHTML = '';
-  products.forEach((product) => {
-    const card = document.createElement('article');
-    card.className = 'item';
-    card.innerHTML = `
-      <img src="${product.image}" alt="${product.name}">
-      <div class="body">
-        <h4>${product.name}</h4>
-        <p>${product.type} • ${product.size} • Stock: ${product.stock}</p>
-        <p>${money(product.price)}</p>
-        <button class="small-btn" data-id="${product.id}">Add to cart</button>
-      </div>
-    `;
-    card.querySelector('button').addEventListener('click', () => addToCart(product.id));
-    storeList.appendChild(card);
-  });
+async function generateProject() {
+  const prompt = document.getElementById('prompt').value;
+  const data = await api('/api/generate', { method: 'POST', body: JSON.stringify({ prompt }) });
+  document.getElementById('generatorStatus').textContent = data.message;
+  refreshFiles();
 }
 
-function addToCart(productId) {
-  const product = products.find((p) => p.id === productId);
-  if (!product || product.stock < 1) return;
-
-  const existing = cart.find((line) => line.id === product.id);
-  if (existing) {
-    if (existing.qty < product.stock) existing.qty += 1;
-  } else {
-    cart.push({ id: product.id, name: product.name, price: product.price, qty: 1 });
-  }
-  renderCart();
+async function runCommand() {
+  const input = document.getElementById('terminalInput');
+  const data = await api('/api/terminal', { method: 'POST', body: JSON.stringify({ command: input.value }) });
+  document.getElementById('terminalBox').innerHTML += `<br>&gt; ${data.output}`;
+  input.value = '';
 }
 
-function renderCart() {
-  cartItems.innerHTML = '';
-  let total = 0;
-
-  cart.forEach((line) => {
-    total += line.qty * line.price;
-    const row = document.createElement('div');
-    row.innerHTML = `${line.name} × ${line.qty} — ${money(line.qty * line.price)}`;
-    cartItems.appendChild(row);
-  });
-
-  if (!cart.length) {
-    cartItems.textContent = 'Cart is empty.';
-  }
-
-  cartTotal.textContent = `Total: ${money(total)}`;
+async function analyze() {
+  const data = await api('/api/analyze', { method: 'POST', body: JSON.stringify({ code: document.getElementById('analyzeInput').value }) });
+  document.getElementById('analyzeResult').innerHTML = data.result.join('<br>');
 }
 
-analyzeBtn.addEventListener('click', async () => {
-  const imageInput = document.getElementById('itemImage');
-  const file = imageInput.files[0];
-  if (!file) {
-    analysisResult.textContent = 'Please upload an image first.';
-    return;
-  }
+function renderPreview() { document.getElementById('previewFrame').src = '/preview'; }
 
-  analysisResult.textContent = 'Reading text from image…';
+async function fetchStats() {
+  const data = await api('/api/stats');
+  document.getElementById('dbProjects').textContent = data.projects;
+  document.getElementById('dbUsers').textContent = data.users;
+}
 
-  try {
-    const result = await Tesseract.recognize(file, 'eng');
-    const text = result.data.text.replace(/\s+/g, ' ').trim();
-    extractedManufacturer = text || 'No clear manufacturer details found in image text.';
-    analysisResult.innerHTML = `<strong>Detected manufacturer/details:</strong> ${extractedManufacturer}`;
-  } catch (error) {
-    extractedManufacturer = 'Unable to read image text in this browser session.';
-    analysisResult.textContent = extractedManufacturer;
-  }
-});
+async function simulateDbUpdate() { await api('/api/stats/simulate', { method: 'POST' }); fetchStats(); }
 
-sellerForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const file = document.getElementById('itemImage').files[0];
-  if (!file) return;
+function appendChat(role, msg) {
+  const p = document.createElement('p');
+  p.className = `chat-line ${role}`;
+  p.textContent = `${role}: ${msg}`;
+  document.getElementById('chatLog').appendChild(p);
+}
 
-  const values = readFormValues();
-  const detailedDescription = generateDetailedDescription(values, extractedManufacturer);
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  appendChat('You', input.value);
+  const data = await api('/api/chat', { method: 'POST', body: JSON.stringify({ message: input.value }) });
+  appendChat('Key', data.reply);
+  input.value = '';
+}
 
-  const product = {
-    id: crypto.randomUUID(),
-    ...values,
-    price: values.price,
-    detailedDescription,
-    image: getImageUrl(file)
-  };
+async function loadAgents() {
+  const data = await api('/api/agents');
+  document.getElementById('agentsList').innerHTML = data.agents.map((a) => `<p><b>${a.name}</b> (${a.stack}) - ${a.description}${a.pricing ? ` | ${a.pricing}` : ''}</p>`).join('');
+}
 
-  products.unshift(product);
-  renderStore();
-  drawStoreCard(product);
+async function register() {
+  const username = document.getElementById('registerUser').value;
+  const password = document.getElementById('registerPass').value;
+  const data = await api('/api/auth/register', { method: 'POST', body: JSON.stringify({ username, password }) });
+  document.getElementById('accountStatus').textContent = data.message;
+}
 
-  analysisResult.innerHTML = `<strong>Published:</strong> ${detailedDescription}`;
-  sellerForm.reset();
-});
+async function login() {
+  const username = document.getElementById('registerUser').value;
+  const password = document.getElementById('registerPass').value;
+  const data = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) });
+  authToken = data.token;
+  document.getElementById('accountStatus').textContent = `Logged in as ${data.user.username}`;
+}
 
-checkoutForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-  if (!cart.length) {
-    orderStatus.textContent = 'Add at least one item to cart before checkout.';
-    return;
-  }
+async function saveProfile() {
+  const bio = document.getElementById('profileBio').value;
+  const data = await api('/api/profile', { method: 'POST', body: JSON.stringify({ token: authToken, bio }) });
+  document.getElementById('accountStatus').textContent = data.message;
+}
 
-  const phone = document.getElementById('buyerPhone').value.trim();
-  const whatsapp = document.getElementById('buyerWhatsapp').value.trim();
-  const address = document.getElementById('buyerAddress').value.trim();
+async function loadDatabase() {
+  const data = await api('/api/admin/database', { method: 'POST', body: JSON.stringify({ token: authToken }) });
+  document.getElementById('adminDb').textContent = JSON.stringify(data, null, 2);
+}
 
-  lastOrder = {
-    phone,
-    whatsapp,
-    address,
-    total: cart.reduce((sum, line) => sum + line.qty * line.price, 0),
-    paid: false,
-    cod: true,
-    lines: [...cart]
-  };
+async function sendProgramMessage() {
+  const program = document.getElementById('programName').value;
+  const message = document.getElementById('programMessage').value;
+  const data = await api('/api/messages/broadcast', { method: 'POST', body: JSON.stringify({ token: authToken, program, message }) });
+  document.getElementById('messageStatus').textContent = data.status;
+}
 
-  orderStatus.innerHTML = `Order created for ${phone}. Delivery calls will use this number. <br>
-  All communications via WhatsApp: <strong>${whatsapp}</strong>.<br>
-  Payment mode: <strong>Pay on delivery after package confirmation</strong>.`;
-});
+function downloadUrl(url, fileName) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+}
 
-confirmPackageBtn.addEventListener('click', () => {
-  if (!lastOrder) {
-    orderStatus.textContent = 'No pending order to confirm yet.';
-    return;
-  }
+function downloadActiveFile() { downloadUrl(`/api/download/file/${encodeURIComponent(activeFile.value)}`, activeFile.value); }
+function downloadProject() { downloadUrl('/api/download/project', 'keycloudin-project.json'); }
 
-  lastOrder.paid = true;
-  orderStatus.innerHTML = `Package confirmed at ${lastOrder.address}. <span class="paid">Payment received on delivery.</span><br>
-  Thank for shopping keywe unlock. Communication stays on WhatsApp ${lastOrder.whatsapp}.`;
+function switchView() {
+  const mode = document.getElementById('viewMode').value;
+  if (mode === 'syntax') codeEditor.value = codeEditor.dataset.syntaxBackup || '';
+  if (mode === 'logic') codeEditor.value = 'START\n-> INPUT\n-> PROCESS\n-> OUTPUT';
+  if (mode === 'terminal') codeEditor.value = '> LOAD\n> RUN';
+  if (mode === 'machine') codeEditor.value = '0101 LOAD\n0110 EXEC';
+}
 
-  cart.length = 0;
-  renderCart();
-  checkoutForm.reset();
-});
+document.getElementById('refreshFilesBtn').onclick = refreshFiles;
+document.getElementById('saveBtn').onclick = saveFile;
+document.getElementById('viewMode').onchange = switchView;
+document.getElementById('generateBtn').onclick = generateProject;
+document.getElementById('renderBtn').onclick = renderPreview;
+document.getElementById('runCommandBtn').onclick = runCommand;
+document.getElementById('analyzeBtn').onclick = analyze;
+document.getElementById('simulateDbUpdateBtn').onclick = simulateDbUpdate;
+document.getElementById('chatSendBtn').onclick = sendChat;
+document.getElementById('registerBtn').onclick = register;
+document.getElementById('loginBtn').onclick = login;
+document.getElementById('saveProfileBtn').onclick = saveProfile;
+document.getElementById('loadDbBtn').onclick = loadDatabase;
+document.getElementById('sendProgramMsgBtn').onclick = sendProgramMessage;
+document.getElementById('downloadFileBtn').onclick = downloadActiveFile;
+document.getElementById('downloadProjectBtn').onclick = downloadProject;
 
-seedCosmetics();
-renderStore();
-renderCart();
-ctx.fillStyle = '#f0eaff';
-ctx.font = '18px Inter';
-ctx.fillText('Your generated store item picture will appear here.', 35, 166);
+refreshFiles().then(fetchStats).then(loadAgents);
+appendChat('Key', 'Key activated: multilingual coding support is online.');
