@@ -7,12 +7,17 @@ const cartTotal = document.getElementById('cartTotal');
 const checkoutForm = document.getElementById('checkoutForm');
 const orderStatus = document.getElementById('orderStatus');
 const confirmPackageBtn = document.getElementById('confirmPackageBtn');
+const distributorForm = document.getElementById('distributorForm');
+const distributorList = document.getElementById('distributorList');
+const distributorStatus = document.getElementById('distributorStatus');
 const canvas = document.getElementById('storeCanvas');
 const ctx = canvas.getContext('2d');
 
 const products = [];
 const cart = [];
 let lastOrder = null;
+const orders = [];
+const distributorApplications = [];
 let extractedManufacturer = 'No manufacturer text detected yet.';
 
 function money(amount) {
@@ -161,6 +166,67 @@ function renderCart() {
   cartTotal.textContent = `Total: ${money(total)}`;
 }
 
+function getPendingOrder() {
+  return orders.find((order) => !order.assignedDistributorId && !order.paid);
+}
+
+function renderDistributorApplications() {
+  distributorList.innerHTML = '';
+
+  if (!distributorApplications.length) {
+    distributorList.innerHTML = '<p class="muted-line">No distributor applications yet.</p>';
+    return;
+  }
+
+  distributorApplications.forEach((application) => {
+    const row = document.createElement('article');
+    row.className = 'application-item';
+    const assignmentText = application.assignedClient
+      ? `Assigned delivery client: ${application.assignedClient.phone} (${application.assignedClient.address})`
+      : 'No delivery client assigned yet.';
+
+    row.innerHTML = `
+      <h4>${application.name}</h4>
+      <p>${application.phone} • ${application.area} • ${application.vehicle}</p>
+      <p>Status: <strong>${application.status}</strong></p>
+      <p>${assignmentText}</p>
+      ${application.status === 'Pending'
+        ? `<button class="small-btn" data-id="${application.id}">Approve application</button>`
+        : ''}
+    `;
+
+    const approveBtn = row.querySelector('button');
+    if (approveBtn) {
+      approveBtn.addEventListener('click', () => approveDistributor(application.id));
+    }
+
+    distributorList.appendChild(row);
+  });
+}
+
+function approveDistributor(applicationId) {
+  const application = distributorApplications.find((item) => item.id === applicationId);
+  if (!application || application.status === 'Approved') return;
+
+  application.status = 'Approved';
+  const pendingOrder = getPendingOrder();
+
+  if (pendingOrder) {
+    pendingOrder.assignedDistributorId = application.id;
+    application.assignedClient = {
+      orderId: pendingOrder.id,
+      phone: pendingOrder.phone,
+      whatsapp: pendingOrder.whatsapp,
+      address: pendingOrder.address
+    };
+    distributorStatus.innerHTML = `Approved ${application.name}. Delivery client assigned: <strong>${pendingOrder.phone}</strong> (${pendingOrder.address}).`;
+  } else {
+    distributorStatus.textContent = `Approved ${application.name}. No waiting delivery client available right now.`;
+  }
+
+  renderDistributorApplications();
+}
+
 analyzeBtn.addEventListener('click', async () => {
   const imageInput = document.getElementById('itemImage');
   const file = imageInput.files[0];
@@ -216,20 +282,30 @@ checkoutForm.addEventListener('submit', (event) => {
   const phone = document.getElementById('buyerPhone').value.trim();
   const whatsapp = document.getElementById('buyerWhatsapp').value.trim();
   const address = document.getElementById('buyerAddress').value.trim();
+  const paymentOption = document.getElementById('paymentOption').value;
+  const usingAfricaCredit = paymentOption === 'africa-credit';
 
   lastOrder = {
+    id: crypto.randomUUID(),
     phone,
     whatsapp,
     address,
     total: cart.reduce((sum, line) => sum + line.qty * line.price, 0),
     paid: false,
-    cod: true,
-    lines: [...cart]
+    cod: !usingAfricaCredit,
+    paymentOption,
+    lines: [...cart],
+    assignedDistributorId: null
   };
+  orders.push(lastOrder);
+
+  const paymentMessage = usingAfricaCredit
+    ? `Payment mode: <strong>Africa credit transfer</strong>. Send credits to Paybill <strong>400200</strong>, Account <strong>1069195</strong>.`
+    : 'Payment mode: <strong>Pay on delivery after package confirmation</strong>.';
 
   orderStatus.innerHTML = `Order created for ${phone}. Delivery calls will use this number. <br>
   All communications via WhatsApp: <strong>${whatsapp}</strong>.<br>
-  Payment mode: <strong>Pay on delivery after package confirmation</strong>.`;
+  ${paymentMessage}`;
 });
 
 confirmPackageBtn.addEventListener('click', () => {
@@ -247,9 +323,33 @@ confirmPackageBtn.addEventListener('click', () => {
   checkoutForm.reset();
 });
 
+distributorForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const name = document.getElementById('distributorName').value.trim();
+  const phone = document.getElementById('distributorPhone').value.trim();
+  const area = document.getElementById('distributorArea').value.trim();
+  const vehicle = document.getElementById('distributorVehicle').value.trim();
+
+  const application = {
+    id: crypto.randomUUID(),
+    name,
+    phone,
+    area,
+    vehicle,
+    status: 'Pending',
+    assignedClient: null
+  };
+
+  distributorApplications.unshift(application);
+  distributorStatus.textContent = `${name}'s distributor application submitted and awaiting approval.`;
+  distributorForm.reset();
+  renderDistributorApplications();
+});
+
 seedCosmetics();
 renderStore();
 renderCart();
+renderDistributorApplications();
 ctx.fillStyle = '#f0eaff';
 ctx.font = '18px Inter';
 ctx.fillText('Your generated store item picture will appear here.', 35, 166);

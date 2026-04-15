@@ -74,7 +74,7 @@
       </div>
 
       <form id="checkoutForm" class="stack checkout" autocomplete="off">
-        <h3>Checkout (Payment on Delivery)</h3>
+        <h3>Checkout</h3>
         <label>
           Delivery phone number
           <input type="tel" id="buyerPhone" required placeholder="08012345678">
@@ -87,7 +87,17 @@
           Delivery address
           <textarea id="buyerAddress" rows="2" required placeholder="House 7, Allen Avenue, Ikeja"></textarea>
         </label>
-        <button type="submit">Place order (COD)</button>
+        <label>
+          Payment option
+          <select id="paymentOption" required>
+            <option value="cod">Cash on delivery</option>
+            <option value="africa-credit">Africa credit transfer</option>
+          </select>
+        </label>
+        <div id="africaCreditInfo" class="payment-note">
+          Africa credit payments: Paybill <strong>400200</strong>, Account <strong>1069195</strong>.
+        </div>
+        <button type="submit">Place order</button>
       </form>
 
       <div id="orderStatus" class="note" aria-live="polite"></div>
@@ -96,6 +106,38 @@
         <h3>Package confirmation</h3>
         <p>Buyer confirms package first, then payment is made on delivery.</p>
         <button id="confirmPackageBtn">Confirm package received</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Sales Distributors Application</h2>
+      <form id="distributorForm" class="stack" autocomplete="off">
+        <label>
+          Distributor full name
+          <input type="text" id="distributorName" required placeholder="Avery Johnson">
+        </label>
+        <label>
+          Contact number
+          <input type="tel" id="distributorPhone" required placeholder="+1 202 555 0142">
+        </label>
+        <label>
+          Delivery area
+          <input type="text" id="distributorArea" required placeholder="Downtown & Midtown">
+        </label>
+        <label>
+          Vehicle type
+          <input type="text" id="distributorVehicle" required placeholder="Motorbike">
+        </label>
+        <button type="submit">Submit distributor application</button>
+      </form>
+
+      <div id="distributorStatus" class="note" aria-live="polite">
+        Approved distributors are automatically assigned to the next delivery client waiting for assignment.
+      </div>
+
+      <div class="applications-wrap">
+        <h3>Applications Queue</h3>
+        <div id="distributorList" class="stack"></div>
       </div>
     </section>
   </main>
