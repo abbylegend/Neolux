@@ -61,13 +61,15 @@ label {
 
 input,
 textarea,
+select,
 button {
   font: inherit;
   border-radius: 10px;
 }
 
 input,
-textarea {
+textarea,
+select {
   border: 1px solid #4f426e;
   background: #110f1a;
   color: var(--ink);
@@ -164,4 +166,36 @@ footer {
 .paid {
   color: var(--good);
   font-weight: 700;
+}
+
+.applications-wrap {
+  margin-top: 1rem;
+}
+
+.application-item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: #130f1f;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.application-item h4,
+.application-item p {
+  margin: 0;
+}
+
+.muted-line {
+  color: var(--muted);
+  margin: 0;
+}
+
+.payment-note {
+  border: 1px solid #4a3e69;
+  border-radius: 10px;
+  padding: 0.65rem 0.7rem;
+  background: #161226;
+  color: #dcd5ef;
+  font-size: 0.9rem;
 }
