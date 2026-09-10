@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07110d" />
+  <title>CryptoChat — Chat • Earn • Wallet</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">₿</span><div><strong>CryptoChat</strong><small>Chat • Earn • Own</small></div></div>
+      <button class="icon-btn" id="notifyBtn" aria-label="Notifications">🔔<span class="dot"></span></button>
+    </header>
+
+    <main>
+      <section class="view active" id="homeView">
+        <div class="hero-card">
+          <div><span class="eyebrow">YOUR CRYPTO SOCIAL HUB</span><h1>Chat. Earn.<br><em>Own your value.</em></h1><p>Send tips, join communities and track your crypto in one place.</p></div>
+          <div class="hero-coin">₿</div>
+        </div>
+        <div class="section-head"><h2>Trending communities</h2><button class="text-btn">View all</button></div>
+        <div class="community-row">
+          <button class="community" data-chat="Crypto Kenya"><span>₿</span><b>Crypto Kenya</b><small>12.8K members</small></button>
+          <button class="community" data-chat="ETH Builders"><span>Ξ</span><b>ETH Builders</b><small>8.4K members</small></button>
+          <button class="community" data-chat="XRP Hub"><span>✕</span><b>XRP Hub</b><small>6.1K members</small></button>
+        </div>
+        <div class="section-head"><h2>Latest activity</h2></div>
+        <article class="post"><div class="avatar">AM</div><div class="post-body"><b>Alex M.</b><span class="muted"> • 4m</span><p>Just completed the community quiz 🎉</p><div class="earned">+0.00018 BTC <span>reward</span></div></div><button class="tip" data-tip="Alex M.">Tip</button></article>
+        <article class="post"><div class="avatar purple">JK</div><div class="post-body"><b>Joy K.</b><span class="muted"> • 21m</span><p>ETH gas is looking better today.</p><div class="post-actions">♡ 24 &nbsp; 💬 7 &nbsp; ↗ Share</div></div></article>
+      </section>
+
+      <section class="view" id="chatView">
+        <div class="page-title"><div><span class="eyebrow">MESSAGES</span><h1>Chats</h1></div><button class="round-btn">＋</button></div>
+        <div class="search"><span>⌕</span><input id="chatSearch" placeholder="Search chats" /></div>
+        <div id="chatList">
+          <button class="chat-item" data-chat="Sarah"><span class="avatar green">SK</span><span class="chat-copy"><b>Sarah K.</b><small>Thanks! The ETH tip arrived.</small></span><span class="chat-meta">2m</span></button>
+          <button class="chat-item" data-chat="Crypto Kenya"><span class="avatar">CK</span><span class="chat-copy"><b>Crypto Kenya</b><small>Brian tipped 10 USDT</small></span><span class="chat-meta">14m</span></button>
+          <button class="chat-item" data-chat="James"><span class="avatar orange">JM</span><span class="chat-copy"><b>James M.</b><small>Want to join the XRP group?</small></span><span class="chat-meta">1h</span></button>
+        </div>
+      </section>
+
+      <section class="view" id="walletView">
+        <div class="page-title"><div><span class="eyebrow">PRIVATE WALLET</span><h1>Wallet</h1></div><button class="secure">● Secure</button></div>
+        <div class="balance-card"><span>Total balance</span><strong id="totalBalance">$4,286.42</strong><small>≈ KES 553,943</small><div class="balance-actions"><button data-action="send">Send</button><button data-action="receive">Receive</button><button data-action="swap">Swap</button></div></div>
+        <div class="asset-list">
+          <div class="asset"><span class="coin btc">₿</span><div><b>Bitcoin</b><small>BTC · Mainnet</small></div><div class="asset-value"><b>0.03142 BTC</b><small>$3,461.20</small></div></div>
+          <div class="asset"><span class="coin eth">Ξ</span><div><b>Ethereum</b><small>ETH · Mainnet</small></div><div class="asset-value"><b>0.183 ETH</b><small>$574.20</small></div></div>
+          <div class="asset"><span class="coin xrp">✕</span><div><b>XRP</b><small>XRP · Mainnet</small></div><div class="asset-value"><b>126.4 XRP</b><small>$323.10</small></div></div>
+          <div class="asset"><span class="coin usdt">₮</span><div><b>Tether</b><small>USDT · TRC20</small></div><div class="asset-value"><b>−</b><small>$0.00</small></div></div>
+        </div>
+        <div class="section-head"><h2>Recent transactions</h2><button class="text-btn">All</button></div>
+        <div class="transaction"><span>↙</span><div><b>Received tip</b><small>Sarah K. · Today, 08:14</small></div><strong class="positive">+0.001 ETH</strong></div>
+        <div class="transaction"><span>↗</span><div><b>Sent BTC</b><small>bc1q…8m2 · Yesterday</small></div><strong>−0.0008 BTC</strong></div>
+      </section>
+
+      <section class="view" id="earnView">
+        <div class="page-title"><div><span class="eyebrow">REWARDS</span><h1>Earn</h1></div><span class="streak">🔥 7 day streak</span></div>
+        <div class="earn-card"><span>This month</span><strong>$86.40</strong><small>in crypto rewards</small><div class="progress"><i></i></div><small>12.6 USDT until your next bonus</small></div>
+        <h2>Ways to earn</h2>
+        <button class="earn-item"><span>💬</span><div><b>Community tips</b><small>Receive BTC, ETH, XRP or stablecoin tips</small></div><strong>Earn</strong></button>
+        <button class="earn-item"><span>🎯</span><div><b>Daily quests</b><small>Complete educational tasks and discussions</small></div><strong>+5 USDT</strong></button>
+        <button class="earn-item"><span>👥</span><div><b>Invite friends</b><small>Share your referral code and earn rewards</small></div><strong>+10 USDT</strong></button>
+        <button class="earn-item"><span>⭐</span><div><b>Creator rewards</b><small>Build a following with useful crypto content</small></div><strong>Apply</strong></button>
+      </section>
+
+      <section class="view" id="profileView">
+        <div class="profile-cover"></div><div class="profile-head"><div class="profile-avatar">AL</div><button class="outline">Edit profile</button></div>
+        <h1>Abby Legend</h1><p class="handle">@abbylegend · Creator</p><p>Building communities around crypto, technology and digital ownership.</p>
+        <div class="stats"><span><b>2.4K</b><small>Followers</small></span><span><b>318</b><small>Following</small></span><span><b>$1,284</b><small>Earned</small></span></div>
+        <div class="profile-card"><b>Wallet visibility</b><span class="toggle on"></span><small>Balances stay private. You choose what to share.</small></div>
+        <div class="profile-card"><b>Security</b><small>Passcode • Biometrics • Recovery phrase</small><button class="text-btn">Manage</button></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-view="homeView"><span>⌂</span><small>Home</small></button>
+      <button class="nav-item" data-view="chatView"><span>◌</span><small>Chats</small></button>
+      <button class="nav-item wallet-nav" data-view="walletView"><span>₿</span><small>Wallet</small></button>
+      <button class="nav-item" data-view="earnView"><span>✦</span><small>Earn</small></button>
+      <button class="nav-item" data-view="profileView"><span>◎</span><small>Profile</small></button>
+    </nav>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="modal" id="modal"><div class="modal-card"><button class="close" id="closeModal">×</button><span class="eyebrow">CHAT</span><h2 id="modalTitle">Sarah K.</h2><div class="messages"><div class="bubble">Hey! 👋</div><div class="bubble mine">Welcome. You can send a crypto tip directly in chat.</div><div class="bubble">Thanks! The ETH tip arrived.</div></div><div class="composer"><input id="messageInput" placeholder="Write a message…"/><button id="sendMessage">➤</button></div><button class="tip-wide" id="tipModal">💸 Send crypto tip</button></div></div>
+  <script src="app.js"></script>
+</body>
+</html>
